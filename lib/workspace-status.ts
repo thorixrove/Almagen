@@ -9,7 +9,7 @@ export const WORKSPACE_STATUSES: { status: WorkspaceStatus; title: string }[] = 
     { status: "DONE", title: "Done" },
 ];
 
-export default function statusTitle(status: WorkspaceStatus) {
+export function statusTitle(status: WorkspaceStatus) {
     return WORKSPACE_STATUSES.find((s) => s.status === status)?.title ?? status
 }
 
