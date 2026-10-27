@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/ui/themes";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AppShell } from "@/components/AppShell";
+import { UpgradeDialogProvider } from "@/components/UpgradeDialog";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,7 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`dark ${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
       >
         <body className="min-h-full flex flex-col">
-          <TooltipProvider>{children}
+          <TooltipProvider>
+            <UpgradeDialogProvider>
+            <AppShell>{children}</AppShell>
+            </UpgradeDialogProvider>
           </TooltipProvider>
           <Toaster richColors/>
         </body>

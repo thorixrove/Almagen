@@ -22,14 +22,14 @@ export const workspaceCardSelect = {
     status: true,
     updateAt: true,
     creator: { select: { name: true, imageUrl: true } },
-    doc: { select: { updateAt: true } },
-    canvas: { select: { updateAt: true } }
+    doc: { select: { updatedAt: true } },
+    canvas: { select: { updatedAt: true } }
 } as const
 
-type Dated = { updateAt: Date } | null
+type Dated = { updatedAt: Date } | null
 
 
 export function withLastActivity<T extends { updateAt: Date; doc: Dated; canvas: Dated }>(workspace: T) {
-    const lastActivity = max([workspace.updateAt, workspace.doc?.updateAt ?? 0, workspace.canvas?.updateAt ?? 0])
+    const lastActivity = max([workspace.updateAt, workspace.doc?.updatedAt ?? 0, workspace.canvas?.updatedAt ?? 0])
     return { ...workspace, lastActivity }
 }
