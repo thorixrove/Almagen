@@ -79,7 +79,7 @@ function CollaborativeEditor({
         let timeout: ReturnType<typeof setTimeout> | undefined
         const save = () => {
             timeout = undefined
-            const content = JSON.parse(JSON.stringify(editor.document)) as Prisma.InputJsonValue
+            const content = JSON.parse(JSON.stringify(editor.document)) as Prisma.InputJsonArray
             saveDocContent(workspaceId, toBase64(Y.encodeStateAsUpdate(doc)), content)
         }
         const handleUpdate = (_update: Uint8Array, origin: unknown) => {
