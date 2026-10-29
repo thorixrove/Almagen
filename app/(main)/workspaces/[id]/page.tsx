@@ -7,11 +7,13 @@ import { prisma } from "@/lib/prisma";
 import { canAccessWorkspace } from "@/lib/workspace-access";
 import { Button } from "@/components/ui/button";
 import { PlanButton } from "@/components/PlanButton";
+import { getEntitlements, workspaceOwnerId, workspaceOwnerSelect } from "@/lib/billing";
 import { WorkspaceEditorsProvider } from "@/components/WorkspaceEditorsContext";
 import { DocEditor } from "@/components/DocEditorLoader";
 import { EditableWorkspaceName } from "./_components/EditableWorkspaceName";
 import { CanvasEditor } from "./_components/CanvasEditor";
 import { AgentToggleButton } from "./_components/AgentToggleButton";
+import { ShareDialog } from "./_components/ShareDialog";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 type ViewMode = "doc" | "canvas" | "both";
@@ -34,11 +36,14 @@ export default async function WorkspacePage({ params, searchParams }: PageProps<
         where: { id },
         select: {
             name: true,
-            doc: { select: { content: true, yjsState: true } },
-            canvas: { select: { content: true } },
+            shareToken: true,
+            ...workspaceOwnerSelect,
+            doc: {select: {content: true, yjsState: true}},
+            canvas: {select: {content: true}}
         },
     });
     if (!workspace) notFound();
+    const entitlements  = await getEntitlements(workspaceOwnerId(workspace))
 
     const showDoc = view === "doc" || view === "both";
     const showCanvas = view === "canvas" || view === "both";
@@ -76,6 +81,13 @@ export default async function WorkspacePage({ params, searchParams }: PageProps<
 
                     <div className="flex flex-1 items-center justify-end gap-2">
                         <PlanButton upgradeOnlyWhenOut />
+                        <ShareDialog
+                        workspaceId={id}
+                        workspaceName={workspace.name}
+                        initialShareToken={workspace.shareToken}
+                        canShare={entitlements.publicSharing}
+                        canExportPdf={entitlements.pdfExport}
+                        />
                         <AgentToggleButton workspaceId={id} initialPrompt={typeof prompt === "string" ? prompt : undefined} />
                     </div>
                 </header>
