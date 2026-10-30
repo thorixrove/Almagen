@@ -24,10 +24,12 @@ function parseViewMode(value: string | string[] | undefined): ViewMode {
 
 // Versi sementara Langkah 10: dokumen + canvas + agen. Tombol Share ditambahkan di langkah berikutnya,
 // lalu file ini diganti.
+
 export default async function WorkspacePage({ params, searchParams }: PageProps<"/workspaces/[id]">) {
     const { id } = await params;
     const { view: viewParam, prompt } = await searchParams;
     const view = parseViewMode(viewParam);
+      console.log("[workspace] id:", id, "access:", await canAccessWorkspace(id));
 
     // 404 rather than 403 so outsiders can't tell whether a workspace id exists.
     if (!(await canAccessWorkspace(id))) notFound();
