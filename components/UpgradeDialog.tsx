@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { PricingPlans } from "@/components/PricingPlans";
 
 type UpgradeReason = { title: string; description?: string }
 
@@ -25,9 +26,7 @@ export function UpgradeDialogProvider({ children }: { children: ReactNode }) {
                         <DialogTitle className="text-2xl">{reason?.title}</DialogTitle>
                         {reason?.description && <DialogDescription>{reason.description}</DialogDescription>}
                     </DialogHeader>
-                    <p className="text-center text-sm text-muted-foreground">
-                        Pilihan paket akan tersedia setelah billing disiapkan
-                    </p>
+                    <PricingPlans onCheckoutStart={close} />
                 </DialogContent>
             </Dialog>
         </UpgradeDialogContext.Provider>
