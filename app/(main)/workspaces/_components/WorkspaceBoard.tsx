@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
 import { deleteWorkspace, moveWorkspace } from "@/actions/workspace";
-import { useFetch } from "@/hooks/use-fetch";
 import type { WorkspaceStatus } from "@/lib/generated/prisma/enums";
 import { WORKSPACE_STATUSES } from "@/lib/workspace-status";
 import { WorkspaceDialog } from "@/components/WorkspaceDialog";
@@ -55,19 +54,29 @@ export function WorkspaceBoard({ workspaces }: { workspaces: BoardWorkspace[] })
   // `selected` outlives the open flag, so dialog text doesn't blank out during the close animation.
   const [selected, setSelected] = useState<BoardWorkspace | null>(null);
   const [openDialog, setOpenDialog] = useState<"edit" | "delete" | null>(null);
-  const { fn: deleteWorkspaceFn, loading: isDeleting } = useFetch(deleteWorkspace);
 
   const openFor = (workspace: BoardWorkspace, dialog: "edit" | "delete") => {
     setSelected(workspace);
     setOpenDialog(dialog);
   };
 
+  // Optimistic: kartu hilang dan dialog tertutup seketika, penghapusan berjalan di latar belakang.
+  // Kalau gagal, kartu dikembalikan dan toast error muncul.
   const handleDelete = async (e: React.MouseEvent) => {
-    // Keep the dialog open until the delete finishes (AlertDialogAction closes it by default).
     e.preventDefault();
     if (!selected) return;
-    await deleteWorkspaceFn(selected.id);
+
+    const previous = items;
+    const id = selected.id;
+    setItems(items.filter((w) => w.id !== id));
     setOpenDialog(null);
+
+    try {
+      await deleteWorkspace(id);
+    } catch (err) {
+      setItems(previous);
+      toast.error(err instanceof Error ? err.message : "Gagal menghapus workspace");
+    }
   };
 
   const handleDragEnd = async ({ draggableId, source, destination }: DropResult) => {
@@ -172,8 +181,8 @@ export function WorkspaceBoard({ workspaces }: { workspaces: BoardWorkspace[] })
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" onClick={handleDelete} disabled={!!isDeleting}>
-              {isDeleting ? "Deleting..." : "Delete"}
+            <AlertDialogAction variant="destructive" onClick={handleDelete}>
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
