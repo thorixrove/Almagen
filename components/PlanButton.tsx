@@ -10,7 +10,7 @@ import { useUpgradeDialog } from "@/components/UpgradeDialog";
 
 type Usage = Awaited<ReturnType<typeof getActivePromptUsage>>
 
-const USAGE_CHANGED_EVENT = "almagen:prompt-usage-changed"
+const USAGE_CHANGED_EVENT = "almapost:prompt-usage-changed"
 
 export function refreshPromptUsage() {
     window.dispatchEvent(new Event(USAGE_CHANGED_EVENT))

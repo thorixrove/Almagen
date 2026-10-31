@@ -161,7 +161,7 @@ function SyncedCanvas({
   onFail: () => void;
 }) {
   const { users, currentUser, handleMount } = useCanvasShared(workspaceId, initialSnapshot);
-  const store = useCanvasSync({ roomId: `almagen-${workspaceId}`, users });
+  const store = useCanvasSync({ roomId: `almapost-${workspaceId}`, users });
 
   useEffect(() => {
     if (store.status === "error") {

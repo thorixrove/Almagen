@@ -31,7 +31,7 @@ export default async function SharedPage({ params }: PageProps<"/shared/[token]"
         <div className="flex h-dvh flex-col overflow-hidden">
             <header className="flex h-14 shrink-0 items-center gap-3 border-b border-white/6 bg-background px-4">
                 <Link href="/" className="font-heading text-lg font-bold tracking-tight transition-opacity hover:opacity-80">
-                    Almagen
+                    Almapost
                 </Link>
                 <span className="text-sm font-medium">{workspace.name}</span>
                 <Badge variant="outline" className="border-white/15 text-xs font-normal text-muted-foreground">
