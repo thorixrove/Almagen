@@ -15,6 +15,16 @@ const TABS: { value: PayerType; label: string }[] = [
     { value: "organization", label: "Team" },
 ];
 
+// Nama fitur dari Clerk ditampilkan apa adanya, jadi di sini diubah ke tulisan yang mudah dibaca.
+// Kunci kiri harus sama dengan nama fitur di dashboard Clerk.
+const FEATURE_LABELS: Record<string, string> = {
+    unlimited_workspaces: "Unlimited workspaces",
+    public_sharing: "Public share links",
+    pdf_export: "PDF export",
+    agent_prompts_500: "500 agent prompts per month",
+    agent_prompts_2000: "2,000 agent prompts per month",
+};
+
 
 function planPrice(plan: Plan) {
     const seatFee = plan.unitPrices?.find((u) => u.name === "seats")?.tiers[0]?.feePerBlock;
@@ -61,7 +71,7 @@ export function PricingPlans({
     const featuredPlanId = sortedPlans.find((plan) => !plan.isDefault)?.id
 
     return (
-        <div className="mx-auto w-full max-w-5xl">
+        <div className="@container mx-auto w-full max-w-5xl">
             {title && (
                 <div className="mb-8 text-center">
                     <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">{title}</h2>
@@ -84,7 +94,7 @@ export function PricingPlans({
                 ))}
             </div>
 
-            <div className={`grid gap-6 ${sortedPlans.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+            <div className={`grid gap-6 ${sortedPlans.length > 2 ? "@2xl:grid-cols-2 @4xl:grid-cols-3" : "@2xl:grid-cols-2"}`}>
                 {isLoading
                     ? [0, 1].map((i) => <div key={i} className="h-96 animate-pulse rounded-2xl border border-white/8 bg-white/3" />)
                     : sortedPlans.map((plan) => {
@@ -95,7 +105,7 @@ export function PricingPlans({
                         return (
                             <div
                                 key={plan.id}
-                                className={`relative flex flex-col rounded-2xl border p-7 ${isFeatured
+                                className={`relative flex flex-col rounded-2xl border p-5 @xl:p-7 ${isFeatured
                                     ? "border-primary/40 bg-primary/4 shadow-2xl shadow-primary/5"
                                     : "border-white/10 bg-white/2"
                                     }`}
@@ -115,9 +125,9 @@ export function PricingPlans({
                                 </div>
                                 {plan.description && <p className="mt-1.5 text-sm text-muted-foreground">{plan.description}</p>}
 
-                                <div className="mt-6 flex items-baseline gap-2">
+                                <div className="mt-6 flex flex-wrap items-baseline gap-x-2">
                                     <span className="font-heading text-4xl font-semibold tracking-tight">{price.amount}</span>
-                                    <span className="text-sm text-muted-foreground">{price.unit}</span>
+                                    <span className="text-sm whitespace-nowrap text-muted-foreground">{price.unit}</span>
                                 </div>
 
                                 <ul className="mt-6 mb-8 flex-1 space-y-2.5">
@@ -127,7 +137,9 @@ export function PricingPlans({
                                         plan.features.map((feature) => (
                                             <li key={feature.id} className="flex items-start gap-2.5 text-sm">
                                                 <Check className="mt-0.5 size-4 shrink-0 text-primary" />
-                                                {feature.name}
+                                                <span className="min-w-0 [overflow-wrap:anywhere]">
+                                                    {FEATURE_LABELS[feature.name] ?? feature.name}
+                                                </span>
                                             </li>
                                         ))
                                     )}
