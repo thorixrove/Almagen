@@ -58,12 +58,12 @@ const components: TLComponents = {
     StylePanel: null,
     PageMenu: null,
     MainMenu: null,
-    Toolbar: () => {
+    Toolbar: () => (
         <DefaultToolbar orientation="vertical">
             <AddEntityTableButton />
             <DefaultToolbarContent />
         </DefaultToolbar>
-    }
+    )
 }
 
 export function CanvasEditor({

@@ -1,15 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MapAnnotations } from "./_components/MapAnnotations";
 import { PricingPlans } from "@/components/PricingPlans";
-import { CanvasMock } from "./_components/SurfaceVisuals";
 import { AUDIENCES, STEPS, SURFACES } from "./_data/landing";
 
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
-      {/* Hero, over the topographic contours that give Almagen its look */}
+      {/* Hero, over the topographic contours that give Outpost its look */}
       <section className="topo-bg px-6 pt-10 pb-24 md:px-10 md:pt-16">
         <MapAnnotations />
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
@@ -37,10 +37,23 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Tampilan produk (ilustrasi statis). Video hero dari tutorial tidak dipakai. */}
+        {/* Product walkthrough. Muted + playsInline are required for autoplay on mobile; WebM is
+            smaller, with MP4 as the fallback for browsers without VP9. */}
         <div className="survey-frame scroll-tilt mx-auto mt-16 max-w-5xl">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-card p-6 shadow-2xl shadow-black/40">
-            <CanvasMock />
+          {/* A slightly narrower frame than the 16:9 video, so object-cover trims the sides. */}
+          <div className="aspect-16/9.25 overflow-hidden rounded-2xl border border-white/10 bg-card shadow-2xl shadow-black/40">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/videos/hero-poster.jpg"
+              aria-label="Outpost walkthrough: the agent draws an architecture diagram and writes the spec"
+              className="size-full object-cover"
+            >
+              <source src="/videos/hero.webm" type="video/webm" />
+              <source src="/videos/hero.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </section>
@@ -72,7 +85,7 @@ export default function Home() {
               One agent, one workspace, your whole team
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Almagen isn&apos;t another AI diagram generator. The same agent
+              Outpost isn&apos;t another AI diagram generator. The same agent
               reasons across your canvas and your docs, turning a rough sketch
               into a written spec without you copying anything by hand. And your
               team is right there with you.
@@ -138,6 +151,13 @@ export default function Home() {
       <section className="topo-bg border-t border-white/10 px-6 py-28 md:px-10">
         <MapAnnotations />
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+          <Image
+            src="/brand/mascot-dark.png"
+            alt=""
+            width={90}
+            height={90}
+            className="opacity-100"
+          />
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
             Give your workspace a collaborator
           </h2>
@@ -150,7 +170,7 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-white/10 px-6 py-8 text-center text-sm text-muted-foreground md:px-10">
-        Almagen
+        Made with Almanako 
       </footer>
     </div>
   );
