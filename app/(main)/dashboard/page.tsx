@@ -12,7 +12,7 @@ import { RecentWorkspaces } from "./_components/RecentWorkspaces";
 import { DashboardPrompt } from "./_components/DashboardPrompt";
 
 
-const RECENT_COUNT = 4
+const RECENT_COUNT = 8
 
 // Halaman sementara Langkah 4: memastikan login dan sinkronisasi User ke database berjalan.
 export default async function DashboardPage() {
@@ -27,10 +27,10 @@ export default async function DashboardPage() {
     .slice(0, RECENT_COUNT)
 
   return (
-    <div className="p-8">
+    <div className="w-full flex-1 px-6 py-8 md:px-12">
       <DashboardPrompt />
 
-      <section className="mx-auto max-w-6xl">
+      <section className="mx-auto w-full max-w-400">
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs text-muted-foreground">{orgName}</p>

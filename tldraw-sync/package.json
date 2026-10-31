@@ -1,0 +1,19 @@
+{
+  "name": "almapost-tldraw-sync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@tldraw/sync-core": "5.5.2",
+    "@tldraw/tlschema": "5.5.2",
+    "@tldraw/validate": "5.5.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260930.2",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.145.0"
+  }
+}

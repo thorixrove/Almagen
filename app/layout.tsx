@@ -25,7 +25,7 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Almagen: Agentic Workspace",
+  title: "Almapost: Agentic Workspace",
   description: "Agen AI yang menggambar dan menulis bersama Anda, secara langsung.",
 };
 

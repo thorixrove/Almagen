@@ -20,7 +20,7 @@ export const workspaceCardSelect = {
     name: true,
     description: true,
     status: true,
-    updateAt: true,
+    updatedAt: true,
     creator: { select: { name: true, imageUrl: true } },
     doc: { select: { updatedAt: true } },
     canvas: { select: { updatedAt: true } }
@@ -29,7 +29,7 @@ export const workspaceCardSelect = {
 type Dated = { updatedAt: Date } | null
 
 
-export function withLastActivity<T extends { updateAt: Date; doc: Dated; canvas: Dated }>(workspace: T) {
-    const lastActivity = max([workspace.updateAt, workspace.doc?.updatedAt ?? 0, workspace.canvas?.updatedAt ?? 0])
+export function withLastActivity<T extends { updatedAt: Date; doc: Dated; canvas: Dated }>(workspace: T) {
+    const lastActivity = max([workspace.updatedAt, workspace.doc?.updatedAt ?? 0, workspace.canvas?.updatedAt ?? 0])
     return { ...workspace, lastActivity }
 }
